@@ -2,8 +2,7 @@ package DataStructures;
 
 import java.util.ArrayList;
 
-public class HeapList<T extends Comparable<T>> implements HeapInterface<T>  {
-
+public class HeapList<T extends Comparable<T>> implements Heap<T> {
     private ArrayList<T> heap = new ArrayList<T>();
     public boolean min=false;
 
