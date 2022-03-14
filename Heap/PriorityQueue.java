@@ -2,36 +2,36 @@ package DataStructures;
 
 import java.util.Arrays;
 @SuppressWarnings("unchecked")
-public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
+public class PriorityQueue<T extends Comparable<T>>  implements Heap<T> {
     private int size;
-    private T [] heap;
+    private final T [] queue;
     private static final int DEFAULT_CAPACITY=1000;
     public int capacity;
     public boolean isMinHeap =true;
 
-    public HeapImplementation(){
-        heap= (T[]) new Comparable[DEFAULT_CAPACITY];
+    public PriorityQueue(){
+        queue = (T[]) new Comparable[DEFAULT_CAPACITY];
         capacity=DEFAULT_CAPACITY;
     }
 
-    public HeapImplementation(boolean isMinHeap){
+    public PriorityQueue(boolean isMinHeap){
         this.isMinHeap =isMinHeap;
         capacity=DEFAULT_CAPACITY;
-        heap= (T[]) new Comparable[DEFAULT_CAPACITY];
+        queue = (T[]) new Comparable[DEFAULT_CAPACITY];
     }
 
-    public HeapImplementation(int maxCapacity){
-        heap= (T[]) new Comparable[maxCapacity];
+    public PriorityQueue(int maxCapacity){
+        queue = (T[]) new Comparable[maxCapacity];
         capacity=maxCapacity;
     }
 
-    public HeapImplementation(int maxCapacity, boolean isMinHeap){
+    public PriorityQueue(int maxCapacity, boolean isMinHeap){
         this(maxCapacity);
         this.isMinHeap = isMinHeap;
     }
 
     public T [] get(){
-        return heap;
+        return queue;
     }
 
     public void insert(T element) {
@@ -39,16 +39,16 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
             throw new RuntimeException("Heap is full");
         }
         size++;
-        heap[size-1]= element;
+        queue[size-1]= element;
         bubbleUp(size-1);
     }
 
     public int getPosition(T element){
-        System.out.println(heap[0].equals(element));
+        System.out.println(queue[0].equals(element));
         System.out.println(size);
 
         for (int i=0; i<size-1; i++){
-            if (heap[i].equals(element)){
+            if (queue[i].equals(element)){
                 return i;
             }
         }
@@ -61,14 +61,14 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
         }
 
         //minHeap
-        if (heap[position].compareTo(heap[((position-1)/2)]) <0 && isMinHeap){
+        if (queue[position].compareTo(queue[((position-1)/2)]) <0 && isMinHeap){
             swap(position,(position-1)/2);
             bubbleUp((position-1)/2);
             return;
         }
 
         //maxHeap
-        if (heap[position].compareTo(heap[((position-1)/2)]) >0 && !isMinHeap){
+        if (queue[position].compareTo(queue[((position-1)/2)]) >0 && !isMinHeap){
             swap(position,(position-1)/2);
             bubbleUp((position-1)/2);
         }
@@ -81,9 +81,9 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
 
 
     private void swap(int position1, int position2){
-        T temp = heap[position1];
-        heap[position1]=heap[position2];
-        heap[position2]=temp;
+        T temp = queue[position1];
+        queue[position1]= queue[position2];
+        queue[position2]=temp;
     }
 
     // checks witch of the children is bigger - if only 1 child exists return that. if no child exists return -1
@@ -103,12 +103,12 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
 
         // left child bigger
             // in a MinHeap
-        if (heap[(leftChild)].compareTo(heap[(rightChild)])<0 && isMinHeap){
+        if (queue[(leftChild)].compareTo(queue[(rightChild)])<0 && isMinHeap){
             return leftChild;
         }
 
             // in a MaxHeap
-        if (heap[(leftChild)].compareTo(heap[(rightChild)])>0 && !isMinHeap){
+        if (queue[(leftChild)].compareTo(queue[(rightChild)])>0 && !isMinHeap){
             return leftChild;
         }
         // right child bigger
@@ -127,13 +127,13 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
             int biggerChild = getBiggerChild(position);
             // swaps the values if the child has more priority - then recursively goes down the tree
                 // in a MinHeap
-            if (heap[biggerChild].compareTo(heap[position])<0 && isMinHeap){
+            if (queue[biggerChild].compareTo(queue[position])<0 && isMinHeap){
                 swap(position, biggerChild);
                 sicker(biggerChild);
                 return;
             }
                 // in a MaxHeap
-            if (heap[biggerChild].compareTo(heap[position])>0 && !isMinHeap){
+            if (queue[biggerChild].compareTo(queue[position])>0 && !isMinHeap){
                 swap(position, biggerChild);
                 sicker(biggerChild);
             }
@@ -145,8 +145,8 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
         if (isEmpty()){
             throw new RuntimeException("Queue is empty");
         }
-        T result = heap[0];
-        heap[0]=heap[size-1];
+        T result = queue[0];
+        queue[0]= queue[size-1];
         size--;
         sicker(0);
         return result;
@@ -158,7 +158,7 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
 
     @Override
     public T sneak() {
-        return heap[0];
+        return queue[0];
     }
 
     @Override
@@ -168,11 +168,11 @@ public class HeapImplementation<T extends Comparable<T>>  implements Heap<T> {
 
     @Override
     public String toString(){
-        return Arrays.toString(heap);
+        return Arrays.toString(queue);
     }
 
     public String getHeapAsString(){
-        return Arrays.toString(heap);
+        return Arrays.toString(queue);
     }
 
 }
